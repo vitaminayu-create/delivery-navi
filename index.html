@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>配送ナビ（試作版）</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="app-header">
+  <button id="btn-home" class="icon-btn" type="button" aria-label="トップへ">🏠</button>
+  <h1 id="screen-title">配送ナビ</h1>
+  <button id="btn-back" class="icon-btn" type="button" aria-label="ひとつ戻る">← 戻る</button>
+</header>
+
+<main id="app">
+
+  <div id="load-error" class="notice-box error hidden"></div>
+
+  <!-- トップ画面 -->
+  <section id="screen-home" class="screen active">
+    <div class="search-wrap">
+      <label for="search-input" class="visually-hidden">横断検索</label>
+      <input id="search-input" type="search" placeholder="キーワードで検索（例：紫、遺伝子）" autocomplete="off">
+    </div>
+    <div id="search-results" class="search-results hidden"></div>
+    <div id="home-menu" class="menu-grid">
+      <button class="menu-btn" type="button" data-target="safety-menu"><span class="menu-icon">🛡️</span><span>食の安全・表示</span></button>
+      <button class="menu-btn" type="button" data-target="producers"><span class="menu-icon">🌾</span><span>地元の生産者</span></button>
+      <button class="menu-btn" type="button" data-link="outOfStock"><span class="menu-icon">📦</span><span>欠品・お届け</span></button>
+      <button class="menu-btn" type="button" data-link="events"><span class="menu-icon">🎉</span><span>今月のイベント</span></button>
+      <button class="menu-btn" type="button" data-target="procedures"><span class="menu-icon">📋</span><span>手続き・利用案内</span></button>
+      <button class="menu-btn" type="button" data-target="memo"><span class="menu-icon">📝</span><span>メモ・声の記録</span></button>
+    </div>
+  </section>
+
+  <!-- 食の安全・表示 サブメニュー -->
+  <section id="screen-safety-menu" class="screen">
+    <div class="menu-grid submenu-grid">
+      <button class="menu-btn" type="button" data-target="catalog"><span class="menu-icon">🏷️</span><span>カタログマーク</span></button>
+      <button class="menu-btn" type="button" data-target="cultivation"><span class="menu-icon">🌱</span><span>栽培基準</span></button>
+      <button class="menu-btn" type="button" data-target="gmo"><span class="menu-icon">🧬</span><span>遺伝子組み換え（GMO）</span></button>
+      <button class="menu-btn" type="button" data-target="allergen"><span class="menu-icon">⚠️</span><span>アレルゲン</span></button>
+      <button class="menu-btn" type="button" data-link="inspection"><span class="menu-icon">☢️</span><span>放射線物質自主検査</span></button>
+      <button class="menu-btn" type="button" data-target="additives"><span class="menu-icon">🧪</span><span>添加物</span></button>
+    </div>
+  </section>
+
+  <section id="screen-catalog" class="screen">
+    <div id="catalog-content" class="detail-list"></div>
+  </section>
+
+  <section id="screen-cultivation" class="screen">
+    <div id="cultivation-content" class="detail-list"></div>
+  </section>
+
+  <section id="screen-gmo" class="screen">
+    <div id="gmo-content" class="detail-list"></div>
+  </section>
+
+  <section id="screen-allergen" class="screen">
+    <div id="allergen-content" class="detail-list"></div>
+  </section>
+
+  <section id="screen-additives" class="screen">
+    <div id="additives-content"></div>
+  </section>
+
+  <section id="screen-producers" class="screen">
+    <div id="producers-content" class="detail-list"></div>
+  </section>
+
+  <section id="screen-procedures" class="screen">
+    <div id="procedures-content" class="detail-list"></div>
+  </section>
+
+  <section id="screen-mark-detail" class="screen">
+    <div id="mark-detail-content" class="detail-list"></div>
+  </section>
+
+  <!-- メモ・声の記録 -->
+  <section id="screen-memo" class="screen">
+    <p class="notice-box warning">組合員の氏名・住所・電話番号・健康状態は書かないでください</p>
+
+    <form id="memo-form">
+      <div class="field">
+        <label for="memo-category">分類</label>
+        <select id="memo-category" required></select>
+      </div>
+
+      <div class="field">
+        <label for="memo-reaction">組合員の反応</label>
+        <select id="memo-reaction" required></select>
+      </div>
+
+      <div class="field">
+        <label for="memo-text">ひとこと（100文字以内）</label>
+        <textarea id="memo-text" maxlength="100" rows="3" required></textarea>
+        <div class="char-count"><span id="memo-text-count">0</span>/100</div>
+      </div>
+
+      <fieldset class="field">
+        <legend>共有範囲</legend>
+        <div id="memo-share-group" class="radio-group"></div>
+      </fieldset>
+
+      <button type="submit" class="primary-btn">記録する</button>
+    </form>
+
+    <div class="memo-list-header">
+      <h2>記録一覧</h2>
+      <button id="btn-export-csv" type="button" class="secondary-btn">CSV書き出し</button>
+    </div>
+    <div id="memo-list" class="memo-list"></div>
+  </section>
+
+</main>
+
+<script src="data/marks.js"></script>
+<script src="data/procedures.js"></script>
+<script src="data/producers.js"></script>
+<script src="data/links.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
